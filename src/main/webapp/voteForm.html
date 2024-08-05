@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>Форма для голосования</title>
+    <style>
+        textarea {
+            width: 50%;
+            height: 100px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        // Сброс формы при загрузке страницы
+        window.onload = function() {
+            var form = document.getElementById("voteForm");
+            if (form) {
+                form.reset();
+            }
+        };
+
+        // Проверка выбора жанров перед отправкой формы
+        function validateForm() {
+            var checkboxes = document.querySelectorAll('input[name="genre"]:checked');
+            if (checkboxes.length < 3) {
+                alert("Пожалуйста, выберите не менее трех жанров.");
+                return false; // Отменяем отправку формы
+            }
+            return true; // Разрешаем отправку формы
+        }
+    </script>
+</head>
+<body>
+
+<form action="browser/vote" method="post" id="voteForm" onsubmit="return validateForm();">
+    <p><b>Лучший исполнитель</b></p>
+    <p>
+        <label><input type="radio" name="artist" value="KISS" required>KISS</label><br>
+        <label><input type="radio" name="artist" value="QUEEN">QUEEN</label><br>
+        <label><input type="radio" name="artist" value="ACDC">ACDC</label><br>
+        <label><input type="radio" name="artist" value="Arch Enemy">Arch Enemy</label><br>
+    </p>
+
+    <p><b>Ваши любимые жанры</b></p>
+    <p>
+        <label><input type="checkbox" name="genre" value="Rock">Rock</label><br>
+        <label><input type="checkbox" name="genre" value="Jazz">Jazz</label><br>
+        <label><input type="checkbox" name="genre" value="Metal">Metal</label><br>
+        <label><input type="checkbox" name="genre" value="Pop">Pop</label><br>
+        <label><input type="checkbox" name="genre" value="Folk">Folk</label><br>
+        <label><input type="checkbox" name="genre" value="Punk">Punk</label><br>
+        <label><input type="checkbox" name="genre" value="Electro">Electro</label><br>
+        <label><input type="checkbox" name="genre" value="Rap">Rap</label><br>
+        <label><input type="checkbox" name="genre" value="Classic">Classic</label><br>
+        <label><input type="checkbox" name="genre" value="Blues">Blues</label><br>
+    </p>
+
+    <p><b>Краткий текст о вас</b></p>
+    <textarea name="about" required></textarea>
+
+    <p><input type="submit" value="Подтвердить и отправить"></p><br>
+
+    <p><a href="browser/results">Посмотреть текущие результаты голосования</a></p>
+</form>
+</body>
+</html>
