@@ -1,7 +1,7 @@
-package by.it_academy.jd2.services;
+package by.it_academy.jd2.service;
 
 import by.it_academy.jd2.dto.VoteDTO;
-import by.it_academy.jd2.services.api.IVoteService;
+import by.it_academy.jd2.service.api.IVoteService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

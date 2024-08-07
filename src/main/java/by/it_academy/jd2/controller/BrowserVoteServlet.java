@@ -1,8 +1,8 @@
-package by.it_academy.jd2.controllers;
+package by.it_academy.jd2.controller;
 
 import by.it_academy.jd2.dto.VoteDTO;
-import by.it_academy.jd2.services.VoteService;
-import by.it_academy.jd2.services.api.IVoteService;
+import by.it_academy.jd2.service.VoteService;
+import by.it_academy.jd2.service.api.IVoteService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 
 @WebServlet(urlPatterns = "/browser/vote")
 public class BrowserVoteServlet extends HttpServlet {

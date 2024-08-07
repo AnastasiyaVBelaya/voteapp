@@ -1,8 +1,8 @@
-package by.it_academy.jd2.controllers;
+package by.it_academy.jd2.controller;
 
 import by.it_academy.jd2.dto.VoteDTO;
-import by.it_academy.jd2.services.VoteService;
-import by.it_academy.jd2.services.api.IVoteService;
+import by.it_academy.jd2.service.VoteService;
+import by.it_academy.jd2.service.api.IVoteService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @WebServlet(urlPatterns = "/browser/results")
 public class ResultsServlet extends HttpServlet {
