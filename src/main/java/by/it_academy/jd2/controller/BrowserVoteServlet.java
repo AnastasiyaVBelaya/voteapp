@@ -26,21 +26,12 @@ public class BrowserVoteServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
 
         try {
-            if (artist == null || artist.isEmpty()) {
-                throw new IllegalArgumentException("Должен быть выбран хотя бы один артист.");
-            }
+            voteService.create(new VoteDTO(artist,genre,about));
 
-            if (genre == null || genre.length < 3) {
-                throw new IllegalArgumentException("Должно быть выбрано не менее 3 жанров.");
-            }
+//TODO Валидация на проверку типов данных в контроллере
 
-            if (about == null || about.isEmpty()) {
-                throw new IllegalArgumentException("Текст не должен быть пустым.");
-            }
-
-            voteService.create(new VoteDTO(artist, genre, about));
-
-            resp.setContentType("text/html");
+/* это надо?
+           resp.setContentType("text/html");
             writer.println("<html><body>");
             writer.println("<h1>Ваш голос принят!</h1>");
             writer.println("<p>Исполнитель: " + artist + "</p>");
@@ -48,13 +39,11 @@ public class BrowserVoteServlet extends HttpServlet {
             writer.println("<p>О вас: " + about + "</p>");
             writer.write("<p><a href='" + req.getContextPath()
                     + "/browser/results'>Посмотреть результаты голосования</a></p>");
-            writer.println("</body></html>");
+            writer.println("</body></html>");*/
         } catch (IllegalArgumentException e) {
+            writer.write("<p>Ошибка: " + e.getMessage() + "</p>");
 
-            resp.setContentType("text/html");
-            writer.println("<html><body>");
-            writer.println("<h1>Ошибка ввода</h1>");
-            writer.println("<p>Ошибка: " + e.getMessage() + "</p>");
+            //подумать над след.двумя строками
             writer.println("<a href='" + req.getContextPath() + "/voteForm.html'>Вернуться на страницу голосования</a><br><br>");
             writer.println("</body></html>");
         }
