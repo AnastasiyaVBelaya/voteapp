@@ -16,20 +16,33 @@ public class VoteStorage implements IVoteStorage {
     private Map<String, Integer> genre = new HashMap<>();
     private List<String> abouts = new ArrayList<>();
 
-    private VoteStorage() {
-    }
 
     @Override
     public void create(VoteDTO vote) {
-        createArtistOrGenre(artist, vote.getArtist());
+        incrementVoteCount(artist, vote.getArtist());
 
         for (String genre : vote.getGenre()) {
-            createArtistOrGenre(this.genre, genre);
+            incrementVoteCount(this.genre, genre);
         }
         abouts.add(vote.getAbout());
     }
 
-    private void createArtistOrGenre(Map<String, Integer> data, String key){
+    @Override
+    public Map<String, Integer> getArtist() {
+        return new HashMap<>(artist);
+    }
+
+    @Override
+    public Map<String, Integer> getGenre() {
+        return new HashMap<>(genre);
+    }
+
+    @Override
+    public List<String> getAbouts() {
+        return new ArrayList<>(abouts);
+    }
+
+    private void incrementVoteCount(Map<String, Integer> data, String key) {
         data.compute(key, (k, v) -> (v == null) ? 1 : v + 1);
     }
 
