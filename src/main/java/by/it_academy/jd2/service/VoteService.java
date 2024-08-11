@@ -59,8 +59,8 @@ public class VoteService implements IVoteService {
     public Map<String, Object> getResults() {
         Map<String, Object> results = new HashMap<>();
 
-        Map<String, Integer> finalArtistVotes = initializeAndSortResults(((VoteStorage)voteStorage).getArtist(), DEFAULT_ARTISTS);
-        Map<String, Integer> finalGenreVotes = initializeAndSortResults(((VoteStorage)voteStorage).getGenre(), DEFAULT_GENRES);
+        Map<String, Integer> finalArtistVotes = initializeAndSortResults(voteStorage.getArtist(), DEFAULT_ARTISTS);
+        Map<String, Integer> finalGenreVotes = initializeAndSortResults(voteStorage.getGenre(), DEFAULT_GENRES);
 
         results.put("artists", finalArtistVotes);
         results.put("genres", finalGenreVotes);
