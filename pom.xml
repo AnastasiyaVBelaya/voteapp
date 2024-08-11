@@ -43,6 +43,11 @@
                 <version>2.2</version>
             </plugin>
         </plugins>
+
+        <finalName>${artifactId}##${version}</finalName>
+
     </build>
+
+
 
 </project>
