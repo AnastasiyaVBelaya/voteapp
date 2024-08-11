@@ -29,38 +29,10 @@ public class ResultsServlet extends HttpServlet {
         Map<String, Integer> genreVotes = (Map<String, Integer>) results.get("genres");
         List<String> aboutVotes = (List<String>) results.get("aboutVotes");
 
-        PrintWriter writer = resp.getWriter();
-        writer.write("<!DOCTYPE HTML>\n" +
-                "<html xmlns=\"http://www.w3.org/1999/html\">\n" +
-                "<head>\n" +
-                "    <meta charset=\"utf-8\">\n" +
-                "    <title>Результаты голосования</title>\n" +
-                "</head>\n" +
-                "<body>\n");
+        req.setAttribute("artistVotes", artistVotes);
+        req.setAttribute("genreVotes", genreVotes);
+        req.setAttribute("aboutVotes", aboutVotes);
 
-        writer.write("<h1>Результаты голосования</h1>");
-
-
-        writer.write("<h2>Лучший исполнитель</h2>");
-        for (Map.Entry<String, Integer> entry : artistVotes.entrySet()) {
-            writer.write("<p>" + entry.getKey() + ": " + entry.getValue() + " голосов</p>");
-        }
-
-        writer.write("<h2>Любимые жанры</h2>");
-        for (Map.Entry<String, Integer> entry : genreVotes.entrySet()) {
-            writer.write("<p>" + entry.getKey() + ": " + entry.getValue() + " голосов</p>");
-        }
-
-        writer.write("<h2>О вас</h2>");
-        for (String about : aboutVotes) {
-            writer.write("<p>" + about + "</p>");
-        }
-
-        writer.println("<a href='" + req.getContextPath() +
-                "/browser/vote'>Вернуться на страницу голосования</a><br><br>");
-        writer.println("</body></html>");
-
-        writer.write("</body>\n" +
-                "</html>\n");
+        req.getRequestDispatcher("/template/wholeResult.jsp").forward(req, resp);
     }
 }
