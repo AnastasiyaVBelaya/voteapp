@@ -27,7 +27,7 @@
 
             <scope>provided</scope>
 
-        </dependency>
+    </dependency>
     </dependencies>
 
     <build>
