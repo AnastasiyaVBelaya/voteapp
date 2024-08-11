@@ -1,6 +1,5 @@
 package by.it_academy.jd2.controller;
 
-import by.it_academy.jd2.dto.VoteDTO;
 import by.it_academy.jd2.service.VoteService;
 import by.it_academy.jd2.service.api.IVoteService;
 import jakarta.servlet.ServletException;
@@ -16,42 +15,52 @@ import java.util.Map;
 
 @WebServlet(urlPatterns = "/browser/results")
 public class ResultsServlet extends HttpServlet {
+
     private final IVoteService voteService = VoteService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Запрос на получение результатов голосования");
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
 
         Map<String, Object> results = voteService.getResults();
 
-        resp.setContentType("text/html");
+        Map<String, Integer> artistVotes = (Map<String, Integer>) results.get("artists");
+        Map<String, Integer> genreVotes = (Map<String, Integer>) results.get("genres");
+        List<String> aboutVotes = (List<String>) results.get("aboutVotes");
+
         PrintWriter writer = resp.getWriter();
-        writer.println("<html><body>");
-        writer.println("<h1>Результаты голосования</h1>");
+        writer.write("<!DOCTYPE HTML>\n" +
+                "<html xmlns=\"http://www.w3.org/1999/html\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"utf-8\">\n" +
+                "    <title>Результаты голосования</title>\n" +
+                "</head>\n" +
+                "<body>\n");
 
-        if (((Map<String, Integer>) results.get("artists")).isEmpty() &&
-                ((Map<String, Integer>) results.get("genres")).isEmpty() &&
-                ((Map<String, List<VoteDTO>>) results.get("aboutVotes")).isEmpty()) {
-            writer.println("<p>Голосование еще не проводилось.</p>");
-        } else {
-            writer.println("<h2>Лучший исполнитель</h2>");
-            for (Map.Entry<String, Integer> entry : ((Map<String, Integer>) results.get("artists")).entrySet()) {
-                writer.println("<p>Исполнитель: " + entry.getKey() + " - Голоса: " + entry.getValue() + "</p>");
-            }
+        writer.write("<h1>Результаты голосования</h1>");
 
-            writer.println("<h2>Любимый жанр</h2>");
-            for (Map.Entry<String, Integer> entry : ((Map<String, Integer>) results.get("genres")).entrySet()) {
-                writer.println("<p>Жанр: " + entry.getKey() + " - Голоса: " + entry.getValue() + "</p>");
-            }
 
-            writer.println("<h2>Краткий текст о вас</h2>");
-            for (List<VoteDTO> voteList : ((Map<String, List<VoteDTO>>) results.get("aboutVotes")).values()) {
-                for (VoteDTO vote : voteList) {
-                    writer.println("<p>Текст: " + vote.getAbout() + " - Время: " + vote.getTimestamp() + "</p>");
-                }
-            }
+        writer.write("<h2>Лучший исполнитель</h2>");
+        for (Map.Entry<String, Integer> entry : artistVotes.entrySet()) {
+            writer.write("<p>" + entry.getKey() + ": " + entry.getValue() + " голосов</p>");
         }
-        writer.println("<a href='" + req.getContextPath() + "/voteForm.html'>Вернуться на страницу голосования</a><br><br>");
+
+        writer.write("<h2>Любимые жанры</h2>");
+        for (Map.Entry<String, Integer> entry : genreVotes.entrySet()) {
+            writer.write("<p>" + entry.getKey() + ": " + entry.getValue() + " голосов</p>");
+        }
+
+        writer.write("<h2>О вас</h2>");
+        for (String about : aboutVotes) {
+            writer.write("<p>" + about + "</p>");
+        }
+
+        writer.println("<a href='" + req.getContextPath() +
+                "/browser/vote'>Вернуться на страницу голосования</a><br><br>");
         writer.println("</body></html>");
+
+        writer.write("</body>\n" +
+                "</html>\n");
     }
 }
