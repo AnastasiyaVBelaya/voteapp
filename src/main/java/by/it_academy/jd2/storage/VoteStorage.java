@@ -16,6 +16,8 @@ public class VoteStorage implements IVoteStorage {
     private Map<String, Integer> genre = new HashMap<>();
     private List<String> abouts = new ArrayList<>();
 
+    private VoteStorage() {
+    }
 
     @Override
     public void create(VoteDTO vote) {
